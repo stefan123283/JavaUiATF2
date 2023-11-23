@@ -6,9 +6,16 @@ public class RandomDataManager {
 
     private static Faker fakerObject = new Faker();
 
-    public static String randomData(String data) {
+    static String password = null;
 
-        String password = fakerObject.internet().password();
+    private static String generateRandomPassword() {
+        if (password == null) {
+            password = fakerObject.internet().password(8, 9, true);
+        }
+        return password;
+    }
+
+    public static String randomData(String data) {
 
         switch (data.toUpperCase()) {
             case "RANDOMFIRSTNAME":
@@ -18,9 +25,9 @@ public class RandomDataManager {
             case "RANDOMEMAIL":
                 return fakerObject.internet().emailAddress();
             case "RANDOMPASSWORD":
-                return password;
-
+                return generateRandomPassword();
         }
         return data;
     }
+
 }

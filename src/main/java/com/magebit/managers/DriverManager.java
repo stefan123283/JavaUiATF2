@@ -25,7 +25,6 @@ public class DriverManager {
                 options.addArguments("user-data-dir=C:\\Users\\Frunza Stefan\\AppData\\Local\\Microsoft\\Edge\\User Data");
                 options.addArguments("profile-directory=Profile 3");
                 options.addArguments("--start-maximized");
-//                options.addArguments("--incognito");
                 driver = new EdgeDriver(options);
                 break;
             case "SAFARI":
