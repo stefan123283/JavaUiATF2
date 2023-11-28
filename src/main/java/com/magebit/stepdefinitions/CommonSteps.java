@@ -3,6 +3,9 @@ package com.magebit.stepdefinitions;
 import com.magebit.managers.ConfigReaderManager;
 import com.magebit.managers.DriverManager;
 import com.magebit.managers.RandomDataManager;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -20,6 +23,8 @@ public class CommonSteps {
 
     WebDriver driver = DriverManager.getInstance().getDriver();
 
+    private static final Logger logger = LogManager.getLogger(CommonSteps.class);
+
     @Given("{string} end-part is accessed")
     public void endPartIsAccessed(String endPartValue) {
         driver.get(ConfigReaderManager.getPropertyValue("url") + endPartValue);
@@ -35,7 +40,7 @@ public class CommonSteps {
                 WebElement inputElement = (WebElement) classField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
                 fieldValue = RandomDataManager.randomData(fieldValue);
                 inputElement.sendKeys(fieldValue);
-                System.out.println(fieldName + ":" + fieldValue);
+                logger.log(Level.INFO, fieldName + ":" + fieldValue);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -57,11 +62,13 @@ public class CommonSteps {
     }
 
     @Then("the following list of messages is displayed:")
-    public void theFollowingListOfMessagesIsDisplayed(List<String> errorMessagesList) throws InterruptedException {
+    public void theFollowingListOfMessagesIsDisplayed(List<String> MessagesList) throws InterruptedException {
         Thread.sleep(500);
-        errorMessagesList.forEach(confirmationMessage -> {
-            boolean confirmationMessageIsDisplayed = driver.findElement(By.xpath("//*[contains(text(),'" + confirmationMessage + "')]")).isDisplayed();
-            Assertions.assertTrue(confirmationMessageIsDisplayed, "The " + confirmationMessage + " was not displayed");
+        MessagesList.forEach(message -> {
+            boolean messageIsDisplayed = driver.findElement(By.xpath("//*[contains(text(),'" + message + "')]")).isDisplayed();
+            Assertions.assertTrue(messageIsDisplayed, "The error message: " + message + " is displayed");
         });
     }
 }
+
+

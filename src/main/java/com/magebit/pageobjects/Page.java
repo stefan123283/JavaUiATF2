@@ -15,7 +15,7 @@ public abstract class Page {
 
     protected WebElement signInLink;
 
-    @FindBy(xpath = "//div[@class='panel header']//a[@id='idpeY80u3Y']")
+    @FindBy(css = "header[class='page-header'] li:nth-child(3) a:nth-child(1)")
 
     protected WebElement createAccountLink;
 

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/main/java/com/magebit/features",
         glue = "com.magebit.stepdefinitions",
-        tags = "@Smoke2"
+        tags = "@Smoke5"
 )
 
 public class CucumberTestRunner {
