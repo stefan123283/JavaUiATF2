@@ -26,6 +26,12 @@ public class RandomDataManager {
                 return fakerObject.internet().emailAddress();
             case "RANDOMPASSWORD":
                 return generateRandomPassword();
+            case "LEADINGSPACESRANDOMPASSWORD":
+                return " " + generateRandomPassword();
+            case "TRAILINGSPACESRANDOMPASSWORD":
+                return generateRandomPassword() + " ";
+            case "RANDOMPHONENUMBER":
+                return fakerObject.phoneNumber().cellPhone();
         }
         return data;
     }

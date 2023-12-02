@@ -4,7 +4,7 @@ Feature: Register Related Test Cases
     Given "customer/account/create/" end-part is accessed
 
   @Smoke1
-  Scenario: The Account Page URL is opened when the registration is successful
+  Scenario: A confirmation message is displayed when the registration is successful
     When the following form from "CreateAccountPage" is populated as follow:
       | firstNameInput       | RandomFirstName |
       | lastNameInput        | RandomLastName  |
@@ -62,3 +62,18 @@ Feature: Register Related Test Cases
     And the "createAccountBtn" from "CreateAccountPage" is clicked
     Then the following list of messages is displayed:
       | Please enter the same value again. |
+
+  @Smoke6
+  Scenario Outline: The user should not be able to create an account if he/she uses leading and trailing spaces for password input
+    When the following form from "CreateAccountPage" is populated as follow:
+      | firstNameInput       | <firstName>       |
+      | lastNameInput        | <lastName>        |
+      | emailInput           | <email>           |
+      | passwordInput        | <password>        |
+      | confirmPasswordInput | <confirmPassword> |
+    And the "createAccountBtn" from "CreateAccountPage" is clicked
+    Then the current url contains "create" keyword
+    Examples:
+      | firstName       | lastName       | email       | password                     | confirmPassword              |
+      | randomFirstName | randomLastName | randomEmail | leadingSpacesRandomPassword  | leadingSpacesRandomPassword  |
+      | randomFirstName | randomLastName | randomEmail | trailingSpacesRandomPassword | trailingSpacesRandomPassword |

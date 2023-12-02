@@ -10,6 +10,10 @@ public class SignInPage extends Page{
         super(driver);
     }
 
+    @FindBy(css = "a[class='action create primary'] span")
+
+    private WebElement createAccountBtn;
+
     @FindBy(id = "email")
 
     private WebElement emailInput;
