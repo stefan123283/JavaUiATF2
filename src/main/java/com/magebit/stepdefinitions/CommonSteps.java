@@ -2,6 +2,7 @@ package com.magebit.stepdefinitions;
 
 import com.magebit.managers.ConfigReaderManager;
 import com.magebit.managers.DriverManager;
+import com.magebit.managers.ExplicitWaitManager;
 import com.magebit.managers.RandomDataManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -38,7 +39,9 @@ public class CommonSteps {
                 Field classField = classInstance.getDeclaredField(fieldName);
                 classField.setAccessible(true);
                 WebElement inputElement = (WebElement) classField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
+                ExplicitWaitManager.waitTillTheElementIsClickable(inputElement);
                 fieldValue = RandomDataManager.randomData(fieldValue);
+                inputElement.clear();
                 inputElement.sendKeys(fieldValue);
                 logger.log(Level.INFO, fieldName + ":" + fieldValue);
 
@@ -61,14 +64,39 @@ public class CommonSteps {
         }
     }
 
+    @Then("the current url contains {string} keyword")
+    public void theCurrentUrlContainsKeyword(String keyWordFromTheUrl) throws InterruptedException {
+        Thread.sleep(500);
+        String currentUrl = driver.getCurrentUrl();
+        boolean currentUrlContainsKeyword = currentUrl.contains(keyWordFromTheUrl);
+
+        Assertions.assertTrue(currentUrlContainsKeyword, "The keyword: " + keyWordFromTheUrl + " is present in " + currentUrl);
+    }
+
     @Then("the following list of messages is displayed:")
     public void theFollowingListOfMessagesIsDisplayed(List<String> MessagesList) throws InterruptedException {
         Thread.sleep(500);
         MessagesList.forEach(message -> {
-            boolean messageIsDisplayed = driver.findElement(By.xpath("//*[contains(text(),'" + message + "')]")).isDisplayed();
+            boolean messageIsDisplayed = driver.findElement(By.xpath("//*[contains(text(),\"" + message + "\")]")).isDisplayed();
             Assertions.assertTrue(messageIsDisplayed, "The error message: " + message + " is displayed");
         });
     }
+
+
+//    @And("the {string} from {string} is selected")
+//    public void theFromIsSelected(String elementName, String pageName) {
+//        try {
+//            Class classInstance = Class.forName("com.magebit.pageobjects." + pageName);
+//            Field classField = classInstance.getDeclaredField(elementName);
+//            classField.setAccessible(true);
+//            WebElement selectElement = (WebElement) classField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
+//            selectElement.click();
+//            List<WebElement> selectValues = selectElement.findElements(By.xpath(".//*"));
+//            selectValues.get((int)Math.floor(Math.random() * (selectValues.size() + 1) + 0)).click();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
 
 
