@@ -10,7 +10,7 @@ public class RandomDataManager {
 
     private static String generateRandomPassword() {
         if (password == null) {
-            password = fakerObject.internet().password(8, 9, true);
+            password = fakerObject.internet().password(8, 9, true, true);
         }
         return password;
     }
@@ -31,7 +31,13 @@ public class RandomDataManager {
             case "TRAILINGSPACESRANDOMPASSWORD":
                 return generateRandomPassword() + " ";
             case "RANDOMPHONENUMBER":
-                return fakerObject.phoneNumber().cellPhone();
+                return fakerObject.numerify("0########");
+            case "RANDOMSTREETADDRESS":
+                return fakerObject.address().streetAddress();
+            case "RANDOMCITY":
+                return fakerObject.address().city();
+            case "RANDOMZIPCODE":
+                return fakerObject.address().zipCode();
         }
         return data;
     }

@@ -1,9 +1,7 @@
 package com.magebit.stepdefinitions;
 
-import com.magebit.managers.ConfigReaderManager;
-import com.magebit.managers.DriverManager;
-import com.magebit.managers.ExplicitWaitManager;
-import com.magebit.managers.RandomDataManager;
+import com.magebit.managers.*;
+import com.magebit.pageobjects.Page;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,6 +56,7 @@ public class CommonSteps {
             Field classField = classInstance.getDeclaredField(elementName);
             classField.setAccessible(true);
             WebElement elementToBeClicked = (WebElement) classField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
+            ExplicitWaitManager.waitTillTheElementIsClickable(elementToBeClicked);
             elementToBeClicked.click();
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,20 +82,24 @@ public class CommonSteps {
     }
 
 
-//    @And("the {string} from {string} is selected")
-//    public void theFromIsSelected(String elementName, String pageName) {
-//        try {
-//            Class classInstance = Class.forName("com.magebit.pageobjects." + pageName);
-//            Field classField = classInstance.getDeclaredField(elementName);
-//            classField.setAccessible(true);
-//            WebElement selectElement = (WebElement) classField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
-//            selectElement.click();
-//            List<WebElement> selectValues = selectElement.findElements(By.xpath(".//*"));
-//            selectValues.get((int)Math.floor(Math.random() * (selectValues.size() + 1) + 0)).click();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @And("the {string} from {string} is selected")
+    public void theFromIsSelected(String elementName, String pageName) {
+
+        try {
+            Class classInstance = Class.forName("com.magebit.pageobjects." + pageName);
+            Field classField = classInstance.getDeclaredField(elementName);
+            classField.setAccessible(true);
+            WebElement selectElement = (WebElement) classField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
+            selectElement.click();
+            List<WebElement> selectValues = selectElement.findElements(By.xpath(".//*"));
+            WebElement randomValue =  selectValues.get((int)Math.floor(Math.random() * (selectValues.size() + 1) + 0));
+            randomValue.click();
+            logger.log(Level.INFO, "Country/State: " + randomValue.getText());
+        } catch (Exception e) {
+            logger.log(Level.INFO, "The country chosen does not have states");
+        }
+    }
+
 }
 
 
