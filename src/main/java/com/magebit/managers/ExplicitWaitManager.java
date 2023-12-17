@@ -16,7 +16,4 @@ public class ExplicitWaitManager {
         waitObject.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public static void waitTillTheElementIsVisible(WebElement element) {
-        waitObject.until(ExpectedConditions.visibilityOf(element));
-    }
 }

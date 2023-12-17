@@ -57,6 +57,14 @@ public class AccountPage extends Page{
 
     private WebElement billingAddressLink;
 
+    @FindBy(xpath = "//span[normalize-space()='Change Shipping Address']")
+
+    private WebElement shippingAddressLink;
+
+    @FindBy(xpath = "//span[normalize-space()='Add New Address']")
+
+    private WebElement addNewAddressBtn;
+
     @FindBy(id = "telephone")
 
     private WebElement phoneNumInput;
@@ -84,6 +92,14 @@ public class AccountPage extends Page{
     @FindBy(css = "button[title='Save Address'] span")
 
     private WebElement saveAddressBtn;
+
+    @FindBy(xpath = "//span[normalize-space()='OK']")
+
+    private WebElement addressDeleteConfirmationBtn;
+
+    @FindBy(xpath = "//*[@id=\"additional-addresses-table\"]/tbody")
+
+    private WebElement tableOfAddresses;
 
 
 }
